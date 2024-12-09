@@ -22,7 +22,11 @@ final class AssignLec extends PowerGridComponent
 {
     public string $sortField = 'Staff.id';
     public bool $showFilters = true;
-
+    public string  $year;
+    public function __construct()
+    {
+        $this->year = date('Y');
+    }
     protected function queryString()
     {
         return $this->powerGridQueryString();

@@ -15,6 +15,7 @@ class User extends Authenticatable
     const ROLE_PGAM = 'pgam';
     const ROLE_DIRECTOR = 'director';
     const ROLE_COORDINATOR = 'coordinator';
+    const ROLE_USER = 'user';
 
     // Check if the user has a specific role
     public function hasRole($role)

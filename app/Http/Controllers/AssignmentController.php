@@ -172,4 +172,10 @@ class AssignmentController extends Controller
         $departments = Department::all()->pluck('code'); // Assuming you have a Department model
         return Excel::download(new WorkloadExport($departments), 'workloadByDepartment.xlsx');
     }
+    public function lecworkload()
+    {
+        $staffs = Staff::all();
+
+        return view('workload.lec', ['staffs' => $staffs]);
+    }
 }

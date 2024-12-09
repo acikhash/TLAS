@@ -121,6 +121,8 @@ Route::group(
         //View Workload
         Route::get('/workload', [AssignmentController::class, 'show'])->name('workload.index');
         Route::get('/workload/print', [AssignmentController::class, 'workload'])->name('workload.print');
+        Route::get('/lecworkload', [AssignmentController::class, 'lecworkload'])->name('workload.lec');
+
         //
 
         //staff page
@@ -162,24 +164,12 @@ Route::group(
         Route::post('/major/{major}', [MajorController::class, 'update'])->name('major.update');
         Route::delete('/major/{major}', [MajorController::class, 'destroy'])->name('major.destroy');
         //
-        //event page
-        Route::get('event', [EventController::class, 'index'])->name('event.index');
-        Route::get('/event/create', [EventController::class, 'create'])->name('event.create');
-        Route::post('/event/{event}', [EventController::class, 'update'])->name('event.update');
-        Route::get('/event/{id}/edit', [EventController::class, 'edit'])->name('event.edit');
-        Route::delete('/event/{event}', [EventController::class, 'destroy'])->name('event.destroy');
-        Route::get('/event/{id}', [EventController::class, 'show'])->name('event.show');
-        Route::get('/qr/{event_id}', [EventController::class, 'qr'])->name('event.qr');
-        Route::post('/event', [EventController::class, 'store'])->name('event.store');
-        Route::get('/generate-pdf/{id}', [EventController::class, 'generatePdf'])->name('event.generatePdf');
-        //
+
+
     }
 );
 
-//send invitation email
-Route::get('/invitation/{id}', [NotificationController::class, 'sendInvitation'])->name('email.send');
-// Sent QR code email
-Route::get('/sentQR/{id}', [NotificationController::class, 'sendQR'])->name('email.sentqr');
+
 
 
 

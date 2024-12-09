@@ -17,9 +17,11 @@ final class AssignmentDetail extends PowerGridComponent
     // use WithExport;
     public string  $staff_id;
     public string  $year;
+
     public function __construct()
     {
         $this->year = date('Y');
+        $this->staff_id ='1';
     }
     public function setUp(): array
     {
