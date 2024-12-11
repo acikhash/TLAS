@@ -193,9 +193,12 @@
                                                     {{ $staff->department }}
                                                 </td>
                                                 <td>
+
                                                     <input type="text" name="rows[{{ $index }}][notes]"
                                                         id="rows[{{ $index }}][notes]" class="form-control"
-                                                        value=" {{ $assignments[$index]->notes }}" readonly>
+                                                        @foreach ($staff->assignments as $assignment) value="{{ $assignment->notes }}" @endforeach
+                                                        readonly>
+
                                                     <input type="hidden" name="rows[{{ $index }}][action]"
                                                         id="rows[{{ $index }}][action]">
                                                 </td>
@@ -210,19 +213,22 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
-                                </label>
-                            </div>
 
+                            </div>
                         </div>
+
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        </label>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <h6 class="mb-0">{{ __('Assign New Lecturer') }}</h6>
@@ -240,12 +246,17 @@
                     </form>
                     <div class="row" id="searchlec" hidden>
                         <div class="col-md-12">
-                            <livewire:assign-lec />
+                            <livewire:assignLec />
+
                         </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 @endsection
 <script src="{{ asset('js/assignLecturers.js') }}"></script>

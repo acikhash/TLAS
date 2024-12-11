@@ -256,7 +256,7 @@ final class AssignLec extends PowerGridComponent
                        ($row->major === 'PENYELIDIKAN DAN AMALAN PROFESIONAL' && $row->total_credit > 6) ||
                        ($row->major === 'KEPIMPINAN AKADEMIK' && $row->total_credit > 3);
             })
-            ->setAttribute('style', 'background-color: orange;'),
+            ->setAttribute('class', 'bg-gradient-danger'),
 
         // Rule for setting row color to yellow
         Rule::rows()
@@ -265,7 +265,7 @@ final class AssignLec extends PowerGridComponent
                        ($row->major === 'PENYELIDIKAN DAN AMALAN PROFESIONAL' && $row->total_credit <= 6 && $row->total_credit > 3) ||
                        ($row->major === 'KEPIMPINAN AKADEMIK' && $row->total_credit <= 3 && $row->total_credit > 1);
             })
-            ->setAttribute('style', 'background-color: yellow;'),
+            ->setAttribute('style', 'bg-gradient-warning'),
     ];
 }
 }

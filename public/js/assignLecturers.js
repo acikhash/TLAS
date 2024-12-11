@@ -1,5 +1,5 @@
 // public/js/assignLecturers.js
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
     // const editButton = document.querySelector('button[name="edit"]');
     // const assignTable = document.getElementById('assign');
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // }
 
     window.removeRow = function (button) {
-        const row = button.closest('tr');
+        const row = button.closest("tr");
         // Get the index of the row within its parent (the table body)
         const rowIndex = Array.from(row.parentNode.children).indexOf(row);
 
@@ -42,16 +42,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Append '0' to the input field's value
         if (actionInput) {
-            actionInput.value = 'delete';
+            actionInput.value = "delete";
         }
 
         // hidden the row from the table
         row.hidden = true;
-
     };
 
     window.updateRow = function (button) {
-        const row = button.closest('tr');
+        const row = button.closest("tr");
         // Get the index of the row within its parent (the table body)
         const rowIndex = Array.from(row.parentNode.children).indexOf(row);
         // Construct the ID for the action input field based on the row index
@@ -62,18 +61,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const notesInput = document.getElementById(notesInputId);
 
         if (actionInput) {
-            actionInput.value = 'update';
+            actionInput.value = "update";
 
             // readonly the row from the table
-            notesInput.readOnly = !notesInput.readOnly
+            notesInput.readOnly = !notesInput.readOnly;
         }
-
     };
 
     window.toggleSearchLecturer = function () {
-        const searchlec = document.getElementById('searchlec');
+        const searchlec = document.getElementById("searchlec");
         if (searchlec) {
             searchlec.hidden = !searchlec.hidden;
         }
     };
+
+
 });
+

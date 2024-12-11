@@ -76,18 +76,31 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label for="department_id" class="form-control-label">{{ __('Department') }}</label>
-                                <select name="department_id" class="form-select" id="department_id">
-                                    @foreach ($departments as $dept)
-                                        <option value={{ $dept->id }}
-                                            @if ($staff->department_id == $dept->id) Selected @endif>
-                                            {{ $dept->code }}-{{ $dept->name }}
+                            <div class="col-md-6">
+                                <label for="faculty_id" class="form-control-label">{{ __('Faculty') }}</label>
+                                <select name="faculty_id" class="form-select" id="faculty_id"
+                                    onchange="filterDepartments()">
+                                    @foreach ($faculties as $faculty)
+                                        <option value="{{ $faculty->id }}"
+                                            @if ($staff->Department->faculty_id == $faculty->id) selected @endif>
+                                            {{ $faculty->code }} - {{ $faculty->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
 
-                                </label>
+                            <div class="col-md-6">
+                                <label for="department_id" class="form-control-label">{{ __('Department') }}</label>
+                                <select name="department_id" class="form-select" id="department_id"
+                                    data-selected-department="{{ $staff->department_id }}">
+                                    <!-- The departments will be populated dynamically -->
+                                    @foreach ($departments as $dept)
+                                        <option value="{{ $dept->id }}"
+                                            @if ($staff->department_id == $dept->id) selected @endif>
+                                            {{ $dept->code }} - {{ $dept->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -136,7 +149,8 @@
                                     <label for="email" class="form-control-label">{{ __('Email') }}</label>
                                     <div class="@error('email')border border-danger rounded-3 @enderror">
                                         <input class="form-control" value="{{ old('email', $staff->email) }}"
-                                            type="email" placeholder="i.e : test@.utm.my" id="email" name="email">
+                                            type="email" placeholder="i.e : test@.utm.my" id="email"
+                                            name="email">
                                         @error('email')
                                             <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -157,3 +171,8 @@
         </div>
     </div>
 @endsection
+<script>
+    // Pass PHP data to JavaScript
+    window.departments = @json($departments);
+</script>
+<script src="{{ asset('js/dropDownFaculty.js') }}"></script>

@@ -45,7 +45,7 @@
                     <a class="nav-link {{ Request::is('Staff') ? 'active' : '' }}" href="{{ route('staff.index') }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
+                            {{-- <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>customer-support</title>
                                 <g id="Basic-Elements" stroke="none" stroke-width="1" fill="none"
@@ -67,7 +67,8 @@
                                         </g>
                                     </g>
                                 </g>
-                            </svg>
+                            </svg> --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M335.5 4l288 160c15.4 8.6 21 28.1 12.4 43.5s-28.1 21-43.5 12.4L320 68.6 47.5 220c-15.4 8.6-34.9 3-43.5-12.4s-3-34.9 12.4-43.5L304.5 4c9.7-5.4 21.4-5.4 31.1 0zM320 160a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM144 256a40 40 0 1 1 0 80 40 40 0 1 1 0-80zm312 40a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM226.9 491.4L200 441.5l0 38.5c0 17.7-14.3 32-32 32l-48 0c-17.7 0-32-14.3-32-32l0-38.5L61.1 491.4c-6.3 11.7-20.8 16-32.5 9.8s-16-20.8-9.8-32.5l37.9-70.3c15.3-28.5 45.1-46.3 77.5-46.3l19.5 0c16.3 0 31.9 4.5 45.4 12.6l33.6-62.3c15.3-28.5 45.1-46.3 77.5-46.3l19.5 0c32.4 0 62.1 17.8 77.5 46.3l33.6 62.3c13.5-8.1 29.1-12.6 45.4-12.6l19.5 0c32.4 0 62.1 17.8 77.5 46.3l37.9 70.3c6.3 11.7 1.9 26.2-9.8 32.5s-26.2 1.9-32.5-9.8L552 441.5l0 38.5c0 17.7-14.3 32-32 32l-48 0c-17.7 0-32-14.3-32-32l0-38.5-26.9 49.9c-6.3 11.7-20.8 16-32.5 9.8s-16-20.8-9.8-32.5l36.3-67.5c-1.7-1.7-3.2-3.6-4.3-5.8L376 345.5l0 54.5c0 17.7-14.3 32-32 32l-48 0c-17.7 0-32-14.3-32-32l0-54.5-26.9 49.9c-1.2 2.2-2.6 4.1-4.3 5.8l36.3 67.5c6.3 11.7 1.9 26.2-9.8 32.5s-26.2 1.9-32.5-9.8z"/></svg>
                             {{-- <i style="font-size: 1rem;"
                                 class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('/staff') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i> --}}
@@ -86,7 +87,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('/workload') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-weight-hanging ps-2 pe-2 text-center text-dark {{ Request::is('/workload') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Staff Workload</span>
@@ -119,7 +120,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('/assignment') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-solid fa-people-arrows ps-2 pe-2 text-center text-dark {{ Request::is('/assignment') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Assign Course</span>
@@ -134,11 +135,11 @@
 
                 <li class="nav-item pb-2">
                     <a class="nav-link {{ Request::is('lecworkload') ? 'active' : '' }}"
-                        href="{{ route('workload.lec') }}">
+                         href="{{ route('workload.lec', ['id' => Auth::user()->staff_id ?? 0]) }}">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('lecworkload') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-dumbbell ps-2 pe-2 text-center text-dark {{ Request::is('lecworkload') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">View Assignment</span>
@@ -156,7 +157,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('/faculty') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-graduation-cap ps-2 pe-2 text-center text-dark {{ Request::is('/faculty') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Faculty List</span>
@@ -197,7 +198,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('program') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-scroll ps-2 pe-2 text-center text-dark {{ Request::is('program') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Program List</span>
@@ -209,7 +210,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('semester') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-calendar-check ps-2 pe-2 text-center text-dark {{ Request::is('semester') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Semester List</span>
@@ -221,7 +222,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('major') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-user-graduate ps-2 pe-2 text-center text-dark {{ Request::is('major') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Major List</span>
@@ -233,7 +234,7 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('grade') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-medal ps-2 pe-2 text-center text-dark {{ Request::is('grade') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Grade List</span>
@@ -246,13 +247,26 @@
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i style="font-size: 1rem;"
-                                class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ Request::is('title') ? 'text-white' : 'text-dark' }} "
+                                class="fas fa-lg fa-crown ps-2 pe-2 text-center text-dark {{ Request::is('title') ? 'text-white' : 'text-dark' }} "
                                 aria-hidden="true"></i>
                         </div>
                         <span class="nav-link-text ms-1">Salutation List</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item pb-2">
+                    <a class="nav-link {{ Request::is('User-Management') ? 'active' : '' }}"
+                        href="{{ route('user-management') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i style="font-size: 1rem;"
+                                class="fas fa-lg fa-users ps-2 pe-2 text-center text-dark {{ Request::is('title') ? 'text-white' : 'text-dark' }} "
+                                aria-hidden="true"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">User-Management</span>
+                    </a>
+                </li>
+
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ Request::is('register') ? 'active' : '' }}"
                         href="{{ route('register') }}">
                         <div
@@ -285,7 +299,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Sign Up New User</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>

@@ -64,7 +64,7 @@ class AssignmentController extends Controller
         // If validation passes, process each row
         // Loop through each assignment and save to the database
         foreach ($validatedData['rows'] as $rowData) {
-             DB::beginTransaction();
+            DB::beginTransaction();
             try {
 
                 $action = $rowData['action'] ?? null;
@@ -110,7 +110,7 @@ class AssignmentController extends Controller
 
                     Log::info('Record created successfully: Course ID ' . $validatedData['course_id'] . ', Staff ID ' . $rowData['staff_id']);
                 }
-                 DB::commit();
+                DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
                 Log::error('Error processing record: ' . $e->getMessage());
@@ -132,19 +132,29 @@ class AssignmentController extends Controller
      */
     public function edit($id)
     {
+
+        // Retrieve staff members who have assignments for the given course
         $staffs = Staff::whereIn('id', function ($query) use ($id) {
             $query->select('staff_id')
             ->from('Assignments')
             ->where('course_id', $id)
                 ->whereNull('assignments.deleted_at')
                 ->distinct();
-        })->get();
+        })
+        ->with(['assignments' => function ($query) use ($id) {
+            $query->where('course_id', $id)
+                ->whereNull('deleted_at'); // Ensure you are checking for soft deletes
+        }])
+        ->get();
+
+
         $semesters = Semester::all();
         $programs = Program::all();
         $assignments = Assignment::where('course_id', $id)->get();
         $course = Course::find($id);
 
         $departments = Department::all();
+
         return view('assignment.edit', ['staffs' => $staffs, 'assignments' => $assignments, 'programs' => $programs, 'course' => $course, 'departments' => $departments, 'semesters' => $semesters]);
     }
 
@@ -172,10 +182,20 @@ class AssignmentController extends Controller
         $departments = Department::all()->pluck('code'); // Assuming you have a Department model
         return Excel::download(new WorkloadExport($departments), 'workloadByDepartment.xlsx');
     }
-    public function lecworkload()
+    public function lecworkload(Request $request, $id)
     {
-        $staffs = Staff::all();
+        $staff = Staff::find($id);
+        // Build the query for assignments
+        $query = Assignment::where('staff_id', $id);
 
-        return view('workload.lec', ['staffs' => $staffs]);
+        // Filter by year if provided
+        if ($request->filled('year')) {
+            $query->where('year', $request->input('year'));
+        }
+        // Execute the query and get the assignments
+        $assignments = $query->get();
+
+        // Return the view with staff and assignments
+        return view('workload.lec', ['staff' => $staff, 'assignments' => $assignments]);
     }
 }

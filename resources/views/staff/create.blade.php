@@ -57,7 +57,7 @@
                                     @endforeach
                                 </select>
 
-                                </label>
+
                             </div>
                         </div>
                         <div class="row">
@@ -75,16 +75,28 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label for="department_id" class="form-control-label">{{ __('Department') }}</label>
-                                <select name="department_id" class="form-select" id="department_id">
-                                    @foreach ($departments as $dept)
-                                        <option value={{ $dept->id }}>{{ $dept->code }}-{{ $dept->name }}
+                            <div class="col-md-6">
+                                <label for="faculty_id" class="form-control-label">{{ __('Faculty') }}</label>
+                                <select name="faculty_id" class="form-select" id="faculty_id"
+                                    onchange="filterDepartments()">
+                                    @foreach ($faculties as $faculty)
+                                        <option value={{ $faculty->id }}>{{ $faculty->code }}-{{ $faculty->name }}
                                         </option>
                                     @endforeach
                                 </select>
 
-                                </label>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="department_id" class="form-control-label">{{ __('Department') }}</label>
+                                <select name="department_id" class="form-select" id="department_id">
+                                    {{-- @foreach ($departments as $dept)
+                                        <option value={{ $dept->id }}>{{ $dept->code }}-{{ $dept->name }}
+                                        </option>
+                                    @endforeach --}}
+                                </select>
+
+
                             </div>
                         </div>
                         <div class="row">
@@ -97,7 +109,7 @@
                                     @endforeach
                                 </select>
 
-                                </label>
+
                             </div>
 
                             <div class="col-md-6">
@@ -109,7 +121,7 @@
                                     @endforeach
                                 </select>
 
-                                </label>
+
                             </div>
                         </div>
                         <div class="row">
@@ -150,3 +162,8 @@
         </div>
     </div>
 @endsection
+<script>
+    // Pass PHP data to JavaScript
+    window.departments = @json($departments);
+</script>
+<script src="{{ asset('js/dropDownFaculty.js') }}"></script>

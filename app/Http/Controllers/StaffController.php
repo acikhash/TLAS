@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\Faculty;
 use App\Models\Gred;
 use App\Models\Major;
 use App\Models\Title;
@@ -28,11 +29,12 @@ class StaffController extends Controller
      */
     public function create()
     {
+        $faculties = Faculty::all();
         $departments = Department::all();
         $titles = Title::all();
         $greds = Gred::all();
         $majors = Major::all();
-        return view('staff.create', ['departments' => $departments, 'greds' => $greds, 'titles' => $titles, 'majors' => $majors]);
+        return view('staff.create', ['departments' => $departments, 'greds' => $greds, 'titles' => $titles, 'majors' => $majors, 'faculties' => $faculties]);
     }
 
     /**
@@ -97,12 +99,12 @@ class StaffController extends Controller
     public function edit(Request $request, $id)
     {
         $staff = Staff::find($id);
-
+        $faculties = Faculty::all();
         $departments = Department::all();
         $titles = Title::all();
         $greds = Gred::all();
         $majors = Major::all();
-        return view('staff.edit', ['staff' => $staff, 'departments' => $departments, 'greds' => $greds, 'titles' => $titles, 'majors' => $majors]);
+        return view('staff.edit', ['staff' => $staff, 'departments' => $departments, 'greds' => $greds, 'titles' => $titles, 'majors' =>$majors, 'faculties' => $faculties]);
     }
 
     /**

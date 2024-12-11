@@ -50,13 +50,14 @@ Route::group(
 
 
 
-        Route::get('user-management', function () {
-            return view('laravel-examples/user-management');
-        })->name('user-management');
+        // Route::get('user-management', function () {
+        //     return view('laravel-examples/user-management');
+        // })->name('user-management');
 
-
+        Route::get('user-management', [InfoUserController::class, 'index'])->name('user-management');
+        Route::get('register', [InfoUserController::class, 'create'])->name('user-register');
         Route::get('/logout', [SessionsController::class, 'destroy']);
-        Route::get('/user-profile', [InfoUserController::class, 'create']);
+        Route::get('/user-profile', [InfoUserController::class, 'edit']);
         Route::post('/user-profile', [InfoUserController::class, 'store']);
         Route::get('/login', function () {
             return view('dashboard');
@@ -121,7 +122,7 @@ Route::group(
         //View Workload
         Route::get('/workload', [AssignmentController::class, 'show'])->name('workload.index');
         Route::get('/workload/print', [AssignmentController::class, 'workload'])->name('workload.print');
-        Route::get('/lecworkload', [AssignmentController::class, 'lecworkload'])->name('workload.lec');
+        Route::post('/lecworkload/{id}', [AssignmentController::class, 'lecworkload'])->name('workload.lec');
 
         //
 
