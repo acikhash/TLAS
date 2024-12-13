@@ -63,6 +63,16 @@ Route::group(
             return view('dashboard');
         })->name('sign-up');
 
+        // User Management
+        Route::get('user', [InfoUserController::class, 'index'])->name('user.index');
+        Route::get('/user/create', [InfoUserController::class, 'create'])->name('user.create');
+        Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
+        Route::get('/user/{id}', [InfoUserController::class, 'show'])->name('user.show');
+        Route::get('/user/{id}/edit', [InfoUserController::class, 'edit'])->name('user.edit');
+        Route::post('/user/{user}', [InfoUserController::class, 'update'])->name('user.update');
+
+
+
         // Program routes
         Route::get('program', [ProgramController::class, 'index'])->name('program.index');
         Route::get('/program/create', [ProgramController::class, 'create'])->name('program.create');

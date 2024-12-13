@@ -24,8 +24,11 @@ class CreateUsersTable extends Migration
             $table->foreignIdFor(Staff::class)->nullable();
             $table->string('role')->default('user');
             $table->string('about_me')->nullable();
+            $table->string('created_by');
+            $table->string('updated_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

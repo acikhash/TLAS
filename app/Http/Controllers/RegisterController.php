@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -20,18 +22,34 @@ class RegisterController extends Controller
         $attributes = request()->validate([
             'name' => ['required', 'max:50'],
             'email' => ['required', 'email', 'max:50', Rule::unique('users', 'email')],
+            'department_id' => ['required', 'exists:departments,id'],
             'password' => ['required', 'min:5', 'max:20'],
-            'agreement' => ['accepted'],
             'staff_id' => ['required', 'integer', 'exists:staff,id'],
-            'role' => ['required']
+            'role' => ['required'],
+            'notes' => ['nullable']
         ]);
         $attributes['password'] = bcrypt($attributes['password']);
+        // Begin database transaction
+        DB::beginTransaction();
+        // dd($attributes);
+        try {
+            $e = User::create([
+                'name'    => $attributes['name'],
+                'email' => $attributes['email'],
+                'password' => $attributes['password'],
+                'department_id' => $attributes['department_id'],
+                'staff_id' => $attributes['staff_id'],
+                'role' => $attributes['role'],
+                'about_me' => $attributes['notes'],
+                'created_by' => Auth::user()->name,
+            ]);
+            DB::commit();
+            return redirect('user')->with('success', 'Record Created Successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error creating user record: ' . $e->getMessage());
 
-
-
-        session()->flash('success', 'Your account has been created.');
-        $user = User::create($attributes);
-        Auth::login($user);
-        return redirect('/dashboard');
+            return redirect('user')->with('error', 'Failed to create record. Please try again.');
+        }
     }
 }
