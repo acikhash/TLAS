@@ -184,18 +184,18 @@ class AssignmentController extends Controller
     }
     public function lecworkload(Request $request, $id)
     {
-        $staff = Staff::find($id);
-        // Build the query for assignments
-        $query = Assignment::where('staff_id', $id);
+        // $staff = Staff::find($id);
+        // // Build the query for assignments
+        // $query = Assignment::where('staff_id', $id);
 
-        // Filter by year if provided
-        if ($request->filled('year')) {
-            $query->where('year', $request->input('year'));
-        }
-        // Execute the query and get the assignments
-        $assignments = $query->get();
+        // // Filter by year if provided
+        // if ($request->filled('year')) {
+        //     $query->where('year', $request->input('year'));
+        // }
+        // // Execute the query and get the assignments
+        // $assignments = $query->get();['staff' => $staff, 'assignments' => $assignments]
 
         // Return the view with staff and assignments
-        return view('workload.lec', ['staff' => $staff, 'assignments' => $assignments]);
+        return view('workload.lec',['id'=>$id] );
     }
 }

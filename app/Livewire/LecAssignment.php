@@ -20,7 +20,7 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
-
+use Illuminate\Support\Facades\Auth;
 final class LecAssignment extends PowerGridComponent
 {
     use WithExport;
@@ -52,7 +52,9 @@ final class LecAssignment extends PowerGridComponent
     public function datasource(): Builder
     {
         return DB::table('Assignments')
-            ->where('year', '=', $this->year);
+            //->where('year', '=', $this->year)
+            ->where('staff_id','=',Auth::user()->staff_id)
+            ;
     }
 
     public function fields(): PowerGridFields
@@ -92,8 +94,8 @@ final class LecAssignment extends PowerGridComponent
             Column::make('Year', 'year','year')
                 ->sortable(),
 
-            Column::make('Semester', 'semester')
-                ->sortable()->searchable(),
+            Column::make('Semester', 'semester', 'semester_id')
+                ->sortable(),
 
             Column::make('Credit', 'credit')
                 ->sortable()
@@ -134,11 +136,11 @@ final class LecAssignment extends PowerGridComponent
             //     ->dataSource(Gred::all())
             //     ->optionLabel('name')
             //     ->optionValue('name'),
-            // Filter::select('title', 'title')
-            //     ->dataSource(Title::all())
-            //     ->optionLabel('name')
-            //     ->optionValue('name'),
-            Filter::inputText('staff_name')->placeholder('staff_name'),
+            Filter::select('semester', 'semester_id')
+                ->dataSource(Semester::all())
+                ->optionLabel('name')
+                ->optionValue('id'),
+           // Filter::inputText('staff_name')->placeholder('staff_name'),
         ];
     }
 

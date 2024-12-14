@@ -132,7 +132,7 @@ Route::group(
         //View Workload
         Route::get('/workload', [AssignmentController::class, 'show'])->name('workload.index');
         Route::get('/workload/print', [AssignmentController::class, 'workload'])->name('workload.print');
-        Route::post('/lecworkload/{id}', [AssignmentController::class, 'lecworkload'])->name('workload.lec');
+        Route::get('/lecworkload/{id}', [AssignmentController::class, 'lecworkload'])->name('workload.lec');
 
         //
 
