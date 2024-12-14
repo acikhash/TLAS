@@ -11,4 +11,8 @@ class Faculty extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
     protected $fillable = [];
+    public function departments()
+    {
+        return $this->hasMany(Department::class, 'faculty_id');
+    }
 }

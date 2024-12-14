@@ -31,7 +31,7 @@ class InfoUserController extends Controller
     {
         $faculties = Faculty::all();
         $departments = Department::all();
-        $staffs= Staff::all();
+        $staffs = Staff::all();
         return view('user.create', ['faculties' => $faculties, 'departments' => $departments, 'staffs' => $staffs]);
     }
     public function edit($id)
@@ -40,21 +40,31 @@ class InfoUserController extends Controller
         $faculties = Faculty::all();
         $departments = Department::all();
         $staffs = Staff::all();
-        return view('user.edit', ['faculties' => $faculties, 'departments' => $departments, 'staffs' => $staffs,'user'=>$user]);
+        return view('user.edit', ['faculties' => $faculties, 'departments' => $departments, 'staffs' => $staffs, 'user' => $user]);
         //return view('laravel-examples/user-profile');
     }
 
+    public function profile()
+    {
+        $user = User::find(Auth::user()->id);
+        $faculties = Faculty::all();
+        $departments = Department::all();
+        $staffs = Staff::all();
+        return view('user.edit', ['faculties' => $faculties, 'departments' => $departments, 'staffs' => $staffs, 'user' => $user]);
+        // return view('laravel-examples/user-profile');
+    }
     public function store(Request $request)
     {
 
         $attributes = request()->validate([
             'name' => ['required', 'max:50'],
-            'email' => ['required', 'email', 'max:50', Rule::unique('users')->ignore(Auth::user()->id)],
+            'email' => ['required', 'email', 'max:50'],
             'department_id'     => ['required', 'integer', 'exists:departments,id'],
             'staff_id' => ['required', 'integer', 'exists:staff,id'],
             'notes'    => ['max:150'],
             'role' => ['required']
         ]);
+        dd(Auth::user()->email);
         if ($request->get('email') != Auth::user()->email) {
 
             $attribute = request()->validate([
@@ -70,6 +80,7 @@ class InfoUserController extends Controller
                 'phone'     => $attributes['phone'],
                 'staff_id' => $attributes['staff_id'],
                 'about_me'    => $attributes["notes"],
+                'department_id' => $attribute["department_id"],
                 'role' => $attributes["role"],
             ]);
 
@@ -78,9 +89,10 @@ class InfoUserController extends Controller
     }
     public function update(Request $request, $id)
     {
+        //dd(Auth::user()->email);
         $attributes = request()->validate([
             'name' => ['required', 'max:50'],
-            'email' => ['required', 'email', 'max:50', Rule::unique('users', 'email')],
+            'email' => ['required', 'email', 'max:50'],
             'department_id' => ['required', 'exists:departments,id'],
             'password' => ['required', 'min:5', 'max:20'],
             'staff_id' => ['required', 'integer', 'exists:staff,id'],
@@ -88,11 +100,22 @@ class InfoUserController extends Controller
             'notes' => ['nullable']
         ]);
         $attributes['password'] = bcrypt($attributes['password']);
+
+        if ($request->get('email') != Auth::user()->email) {
+
+            $attribute = request()->validate([
+                'email' => ['required', 'email', 'max:50', Rule::unique('users')->ignore(Auth::user()->id)],
+            ]);
+        }
+
+
+
         // Begin database transaction
         DB::beginTransaction();
         // dd($attributes);
         try {
-            $e = User::create([
+            $e = User::where('id', Auth::user()->id)
+                ->update([
                 'name'    => $attributes['name'],
                 'email' => $attributes['email'],
                 'password' => $attributes['password'],
@@ -103,12 +126,12 @@ class InfoUserController extends Controller
                 'created_by' => Auth::user()->name,
             ]);
             DB::commit();
-            return redirect('user')->with('success', 'Record Created Successfully');
+            return redirect('user')->with('success', 'Record Upadated Successfully');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error creating user record: ' . $e->getMessage());
+            Log::error('Error updating user record: ' . $e->getMessage());
 
-            return redirect('user')->with('error', 'Failed to create record. Please try again.');
+            return redirect('user')->with('error', 'Failed to update record. Please try again.');
         }
     }
 }

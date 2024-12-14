@@ -57,7 +57,7 @@ Route::group(
         Route::get('user-management', [InfoUserController::class, 'index'])->name('user-management');
         Route::get('register', [InfoUserController::class, 'create'])->name('user-register');
         Route::get('/logout', [SessionsController::class, 'destroy']);
-        Route::get('/user-profile', [InfoUserController::class, 'edit']);
+        Route::get('/user-profile', [InfoUserController::class, 'profile']);
         Route::post('/user-profile', [InfoUserController::class, 'store']);
         Route::get('/login', function () {
             return view('dashboard');

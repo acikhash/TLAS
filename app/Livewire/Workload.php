@@ -44,10 +44,6 @@ final class Workload extends PowerGridComponent
                 ->view('components.detail')
 
 
-            // Exportable::make('workload')
-            //     ->striped()
-            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-
         ];
     }
 
@@ -60,26 +56,9 @@ final class Workload extends PowerGridComponent
             'Staff.department',
             'Staff.major',
             'Staff.gred',
-            // // 'Assignments.course_code',
-            // 'Assignments.year',
-            // 'Assignments.semester',
-
         )
 
-            // ->leftjoin('Assignments', 'Staff.id', '=', 'Assignments.staff_id')
             ->whereNull('Staff.deleted_at');
-        // ->groupBy(
-
-        //     'Assignments.year',
-        //     'Assignments.semester',
-        //     'Staff.id',
-        //     'Staff.title',
-        //     'Staff.name',
-        //     'Staff.department',
-        //     'Staff.major',
-        //     'Staff.gred',
-        //     // 'Assignments.course_code',
-        // );
     }
 
     public function fields(): PowerGridFields
@@ -92,7 +71,7 @@ final class Workload extends PowerGridComponent
             ->add('department')
             ->add('major')
             ->add('gred')
-            // ->add('department_name', fn($staff) => e($staff->department_name))
+
         ;
     }
 
@@ -101,7 +80,7 @@ final class Workload extends PowerGridComponent
         return [
             Column::action('Action'),
 
-            Column::make('Id', 'id'),
+            Column::make('Id', 'id')->index(),
             Column::make('Title', 'title', 'title_name')->sortable(),
             Column::make('Name', 'name')
                 ->sortable()
@@ -117,15 +96,7 @@ final class Workload extends PowerGridComponent
     public function filters(): array
     {
         return [
-            // Filter::select('year', 'year')
-            //     ->dataSource(
-            //         Semester::distinct()
-            //             ->pluck('year')
-            //             ->map(fn($year) => ['year' => $year])
-            //             ->toArray()
-            //     )
-            //     ->optionLabel('year')
-            //     ->optionValue('year'),
+
             Filter::select('department', 'department')
                 ->dataSource(Department::all())
                 ->optionLabel('code')

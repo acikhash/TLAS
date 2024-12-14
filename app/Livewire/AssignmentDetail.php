@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Semester;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -11,17 +12,18 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 final class AssignmentDetail extends PowerGridComponent
 {
     // use WithExport;
     public string  $staff_id;
     public string  $year;
-
+    public bool $showFilters = true;
     public function __construct()
     {
         $this->year = date('Y');
-        $this->staff_id ='1';
+        $this->staff_id = '1';
     }
     public function setUp(): array
     {
@@ -42,7 +44,8 @@ final class AssignmentDetail extends PowerGridComponent
     {
         return DB::table('Assignments')
             ->where('staff_id', '=', $this->staff_id)
-            ->where('year', '=', $this->year);
+           // ->where('year', '=', $this->year)
+            ;
     }
 
     public function fields(): PowerGridFields
@@ -69,16 +72,15 @@ final class AssignmentDetail extends PowerGridComponent
     {
         return [
             // Column::action('Action'),
-            Column::make('Id', 'id'),
+            Column::make('Id', 'id')->index(),
             Column::make('Course id', 'course_id')->hidden(),
             Column::make('Staff id', 'staff_id')->hidden(),
             Column::make('Semester id', 'semester_id')->hidden(),
             Column::make('Course code', 'course_code')
                 ->sortable()
                 ->searchable(),
-            Column::make('Year', 'year')
-                ->sortable()
-                ->searchable(),
+            Column::make('Year', 'year', 'year')
+                ->sortable(),
             Column::make('Semester', 'semester')
                 ->sortable()
                 ->searchable(),
@@ -104,6 +106,16 @@ final class AssignmentDetail extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::select('year', 'year')
+                ->dataSource(
+                   Semester::distinct()
+                        ->pluck('year')
+                        ->map(fn($year) => ['year' => $year])
+                        ->toArray()
+                )
+                ->optionLabel('year')
+                ->optionValue('year'),
+        ];
     }
 }

@@ -25,7 +25,7 @@
 
                 </div>
                 <div class="card-body pt-4 p-3">
-                    <form method="post" action="{{ route('user.update',$user->id) }} " enctype="multipart/form-data">
+                    <form method="post" action="{{ route('user.update', $user->id) }} " enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         @if ($errors->any())
@@ -64,7 +64,8 @@
                                 <label for="password" class="form-control-label">{{ __('Default password') }}</label>
 
                                 <div class="@error('password')border border-danger rounded-3 @enderror">
-                                    <input class="form-control" type="password" value="{{$user->password}}" required id="password" name="password">
+                                    <input class="form-control" type="password" value="{{ $user->password }}" required
+                                        id="password" name="password">
                                     @error('password')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                     @enderror
@@ -78,7 +79,7 @@
                                     <label for="department_id" class="form-control-label">{{ __('Department') }}</label>
                                     <select name="department_id" class="form-select" id="department_id" required>
                                         @foreach ($departments as $department)
-                                            <option value={{ $department->id }}>
+                                            <option value={{ $department->id }} {{ $user->department_id == $department->id ? 'selected' : '' }}>
                                                 {{ $department->code }}&nbsp;{{ $department->name }}
                                             </option>
                                         @endforeach
@@ -102,25 +103,26 @@
                             <div class="col-md-6">
                                 <label for="role" class="form-control-label">{{ __('Role') }}</label>
                                 <select name="role" class="form-select" id="role" required>
-                                    <option value="pgam">
-                                        PGAM
-                                    </option>
-                                    <option value="director">
+
+                                    <option value="pgam" {{ $user->role == 'pgam' ? 'selected' : '' }}>PGAM</option>
+                                    <option value="director" {{ $user->role == 'director' ? 'selected' : '' }}>
                                         Director
                                     </option>
-                                    <option value="coordinator">
+                                    <option value="coordinator" {{ $user->role == 'coordinator' ? 'selected' : '' }}>
                                         Coordinator
                                     </option>
-                                    <option value="user">
-                                        Lecturer
-                                    </option>
+                                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="staff_id" class="form-control-label">{{ __('Staff') }}</label>
                                 <select name="staff_id" class="form-select" id="staff_id" required>
+                                    <option value=0>Select Staff</option>
                                     @foreach ($staffs as $staff)
-                                        <option value={{ $staff->id }}>
+
+                                        <option value={{ $staff->id }}
+                                            {{ $user->staff_id == $staff->id ? 'selected' : '' }}>
                                             {{ $staff->title }}&nbsp;{{ $staff->name }}
                                         </option>
                                     @endforeach
